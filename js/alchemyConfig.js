@@ -10,15 +10,11 @@ var config = {
                 ]
                },
   nodeCaption: function(n) {
-    if(n.node_type === "candidate") {
-      return n.candidate
-    } else {
-      return n.contributor
+    if(n.nodeType === "candidate") {
+      return n.properties.candidateName + ": $" + n.properties.total
+    } else  if (n.nodeType === "contributor") {
+      return n.properties.contributorPayee + ": $" + n.properties.total
     }
-  },
-
-  nodeMouseOver : function(n) {
-        return n.amount
   },
 
   rootNodeRadius: 20,
@@ -27,19 +23,23 @@ var config = {
     if(n.node_type === "candidate") {
       return (10)
       // n.amount * .0005
-    } else {
+    } else if (n.node_type === "contributor") {
       return (30)
     }
   },
 
-  edgeWidth: function(e) {
-    return (e.contributed * .0005)
+  edgeCaption: function(e) {
+    return "$" + e.total
   },
 
-  directedEdges: true,
-  edgeArrowSize: .05,
+  edgeWidth: function(e) {
+    return (e.total * .0005)
+  },
 
-  alpha: .1,
+  collisionDetection: true,
+
+  directedEdges: true,
+  edgeArrowSize: 5,
 
   showControlDash: true,
 
@@ -53,6 +53,8 @@ var config = {
   edgesToggle: true,
   nodesToggle: true,
   toggleRootNotes: false,
+
+  search: true,
 
   zoomControls: true
 };
